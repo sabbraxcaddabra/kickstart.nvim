@@ -1,5 +1,4 @@
 --[[
-
 =====================================================================
 ==================== READ THIS BEFORE CONTINUING ====================
 =====================================================================
@@ -197,6 +196,8 @@ vim.keymap.set('n', '<C-h>', '<C-w><C-h>', { desc = 'Move focus to the left wind
 vim.keymap.set('n', '<C-l>', '<C-w><C-l>', { desc = 'Move focus to the right window' })
 vim.keymap.set('n', '<C-j>', '<C-w><C-j>', { desc = 'Move focus to the lower window' })
 vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper window' })
+
+vim.keymap.set('n', '<leader>c', '<Cmd>bdelete<CR>', { desc = '[C]lose current buffer' })
 
 vim.keymap.set('i', 'jj', '<Esc>', { desc = 'Go to normal mode from insert' })
 
@@ -930,6 +931,9 @@ require('lazy').setup({
 
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
+    keys = {
+      { '<leader>o', '<Cmd>lua MiniFiles.open()<CR>', desc = '[O]pen mini.files', mode = 'n' },
+    },
     config = function()
       -- Better Around/Inside textobjects
       --
