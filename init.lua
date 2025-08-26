@@ -247,8 +247,7 @@ rtp:prepend(lazypath)
 --
 -- NOTE: Here is where you install your plugins.
 require('lazy').setup({
-  -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
-  'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
+  -- NOTE: Here is plugins installed by myself
   {
     'kndndrj/nvim-dbee',
     dependencies = {
@@ -264,6 +263,19 @@ require('lazy').setup({
       require('dbee').setup(--[[optional config]])
     end,
   },
+  -- {
+  --   'nvim-neo-tree/neo-tree.nvim',
+  --   branch = 'v3.x',
+  --   dependencies = {
+  --     'nvim-lua/plenary.nvim',
+  --     'MunifTanjim/nui.nvim',
+  --     'nvim-tree/nvim-web-devicons', -- optional, but recommended
+  --   },
+  --   lazy = false, -- neo-tree will lazily load itself
+  --   keys = {},
+  -- },
+  -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
+  'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
   -- NOTE: Plugins can also be added by using a table,
   -- with the first argument being the link and the following
   -- keys can be used to configure plugin behavior/loading/etc.
@@ -927,6 +939,8 @@ require('lazy').setup({
       --  - ci'  - [C]hange [I]nside [']quote
       require('mini.ai').setup { n_lines = 500 }
       require('mini.pairs').setup()
+      require('mini.tabline').setup()
+      require('mini.files').setup()
 
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
       --
