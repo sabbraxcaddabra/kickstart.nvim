@@ -264,17 +264,13 @@ require('lazy').setup({
       require('dbee').setup(--[[optional config]])
     end,
   },
-  -- {
-  --   'nvim-neo-tree/neo-tree.nvim',
-  --   branch = 'v3.x',
-  --   dependencies = {
-  --     'nvim-lua/plenary.nvim',
-  --     'MunifTanjim/nui.nvim',
-  --     'nvim-tree/nvim-web-devicons', -- optional, but recommended
-  --   },
-  --   lazy = false, -- neo-tree will lazily load itself
-  --   keys = {},
-  -- },
+  {
+    'akinsho/toggleterm.nvim',
+    version = '*',
+    config = function()
+      require('toggleterm').setup {}
+    end,
+  },
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
   -- NOTE: Plugins can also be added by using a table,
@@ -931,9 +927,6 @@ require('lazy').setup({
 
   { -- Collection of various small independent plugins/modules
     'echasnovski/mini.nvim',
-    keys = {
-      { '<leader>o', '<Cmd>lua MiniFiles.open()<CR>', desc = '[O]pen mini.files', mode = 'n' },
-    },
     config = function()
       -- Better Around/Inside textobjects
       --
@@ -942,9 +935,11 @@ require('lazy').setup({
       --  - yinq - [Y]ank [I]nside [N]ext [Q]uote
       --  - ci'  - [C]hange [I]nside [']quote
       require('mini.ai').setup { n_lines = 500 }
-      require('mini.pairs').setup()
+      -- require('mini.pairs').setup()
       require('mini.tabline').setup()
       require('mini.files').setup()
+
+      vim.keymap.set('n', '<leader>o', '<Cmd>lua MiniFiles.open()<CR>', { desc = '[O]pen mini.files' })
 
       -- Add/delete/replace surroundings (brackets, quotes, etc.)
       --
@@ -1010,7 +1005,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
-  -- require 'kickstart.plugins.autopairs',
+  require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
