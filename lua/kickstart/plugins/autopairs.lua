@@ -12,9 +12,12 @@ return {
     npairs.setup(opts)
     npairs.add_rules {
       -- одиночный $
-      Rule('$', '$', { 'plaintex', 'typst', 'tex' }):with_pair(cond.not_before_text '\\'), -- не парить \$
+      Rule('$', '$', { 'plaintex', 'typst', 'tex', 'markdown' }):with_pair(cond.not_before_text '\\'), -- не парить \$
       -- двойной $$
-      Rule('$$', '$$', { 'plaintex', 'tex' }),
+      Rule('$$', '$$', { 'plaintex', 'tex', 'markdown' }),
+      Rule('{', '}', { 'markdown' }),
+      Rule('[', ']', { 'markdown' }),
+      Rule('(', ')', { 'markdown' }),
     }
   end,
 }
