@@ -180,7 +180,7 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 --
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
-vim.keymap.set('t', 'jj', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+-- vim.keymap.set('t', 'jj', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
 
 -- TIP: Disable arrow keys in normal mode
 -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
@@ -199,7 +199,7 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 
 vim.keymap.set('n', '<leader>c', '<Cmd>bdelete<CR>', { desc = '[C]lose current buffer' })
 
-vim.keymap.set('i', 'jj', '<Esc>', { desc = 'Go to normal mode from insert mode' })
+-- vim.keymap.set('i', 'jj', '<Esc>', { desc = 'Go to normal mode from insert mode' })
 
 -- NOTE: Some terminals have colliding keymaps or are not able to send distinct keycodes
 -- vim.keymap.set("n", "<C-S-h>", "<C-w>H", { desc = "Move window to the left" })
@@ -308,6 +308,12 @@ require('lazy').setup({
       vim.g.mkdp_filetypes = { 'markdown' }
     end,
     ft = { 'markdown' },
+  },
+  {
+    'chomosuke/typst-preview.nvim',
+    lazy = false, -- or ft = 'typst'
+    version = '1.*',
+    opts = {}, -- lazy.nvim will implicitly calls `setup {}`
   },
   -- NOTE: Plugins can be added with a link (or for a github repo: 'owner/repo' link).
   'NMAC427/guess-indent.nvim', -- Detect tabstop and shiftwidth automatically
@@ -805,6 +811,7 @@ require('lazy').setup({
         'stylua', -- Used to format Lua code
         'ruff',
         'basedpyright',
+        'tinymist',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -821,6 +828,41 @@ require('lazy').setup({
             require('lspconfig')[server_name].setup(server)
           end,
         },
+      }
+
+      require('lspconfig')['tinymist'].setup {
+
+        settings = {
+
+          formatterMode = 'typstyle',
+
+          exportPdf = 'onType',
+
+          semanticTokens = 'disable',
+        },
+        on_attach = function(client, bufnr)
+          vim.keymap.set('n', '<leader>tp', function()
+            client:exec_cmd({
+
+              title = 'pin',
+
+              command = 'tinymist.pinMain',
+
+              arguments = { vim.api.nvim_buf_get_name(0) },
+            }, { bufnr = bufnr })
+          end, { desc = '[T]inymist [P]in', noremap = true })
+
+          vim.keymap.set('n', '<leader>tu', function()
+            client:exec_cmd({
+
+              title = 'unpin',
+
+              command = 'tinymist.pinMain',
+
+              arguments = { vim.v.null },
+            }, { bufnr = bufnr })
+          end, { desc = '[T]inymist [U]npin', noremap = true })
+        end,
       }
     end,
   },
