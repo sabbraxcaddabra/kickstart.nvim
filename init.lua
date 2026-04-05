@@ -193,7 +193,10 @@ vim.keymap.set('n', '<leader>q', vim.diagnostic.setloclist, { desc = 'Open diagn
 --
 -- NOTE: This won't work in all terminal emulators/tmux/etc. Try your own mapping
 -- or just use <C-\><C-n> to exit terminal mode
--- vim.keymap.set('t', 'jj', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+vim.keymap.set('t', '<ESc>', '<C-\\><C-n>', { desc = 'Exit terminal mode' })
+vim.keymap.set('n', '<leader>tf', '<cmd>ToggleTerm direction=float<cr>', { desc = '[T]erminal [F]loat' })
+vim.keymap.set('n', '<leader>tv', '<cmd>ToggleTerm size=100 direction=vertical<cr>', { desc = '[T]erminal [V]ertical' })
+vim.keymap.set('n', '<leader>tz', '<cmd>ToggleTerm size=20 direction=horizontal<cr>', { desc = '[T]erminal Hori[Z]ontal' })
 
 -- TIP: Disable arrow keys in normal mode
 -- vim.keymap.set('n', '<left>', '<cmd>echo "Use h to move!!"<CR>')
@@ -276,7 +279,19 @@ require('lazy').setup({
   {
     'akinsho/toggleterm.nvim',
     version = '*',
-    config = function() require('toggleterm').setup {} end,
+    config = function()
+      require('toggleterm').setup()
+
+      local Terminal = require('toggleterm.terminal').Terminal
+
+      local lazygit = Terminal:new {
+        cmd = 'lazygit',
+        hidden = true,
+        direction = 'float',
+      }
+
+      vim.keymap.set('n', '<leader>g', function() lazygit:toggle() end, { silent = true, noremap = true, desc = 'Open Lazy[G]it terminal' })
+    end,
   },
   {
     'lervag/vimtex',
